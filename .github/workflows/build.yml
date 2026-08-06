@@ -1,0 +1,44 @@
+name: Build ipwndfu Shellcodes
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew update
+          brew install arm-none-eabi-binutils arm-none-eabi-gcc binutils
+
+      - name: Verify toolchain
+        run: |
+          arm-none-eabi-as --version
+          arm-none-eabi-objcopy --version
+          xcrun --version
+          clang --version
+          gobjcopy --version
+
+      - name: Build shellcodes
+        run: |
+          mkdir -p bin
+          make
+
+      - name: List outputs
+        run: |
+          ls -lah bin
+          file bin/*
+
+      - name: Upload shellcodes
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipwndfu-shellcodes
+          path: bin/*.bin
