@@ -16,6 +16,7 @@ jobs:
       - name: Install toolchains
         run: |
           brew update
+          brew install llvm
 
           echo "$(brew --prefix llvm)/bin" >> $GITHUB_PATH
 
