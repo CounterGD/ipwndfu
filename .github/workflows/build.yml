@@ -1,44 +1,39 @@
-name: Build ipwndfu Shellcodes
+name: Build ipwndfu
 
 on:
   push:
-    branches: [ main, master ]
   pull_request:
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install toolchains
         run: |
           brew update
-          brew install arm-none-eabi-binutils arm-none-eabi-gcc binutils
+          brew install llvm
 
-      - name: Verify toolchain
-        run: |
-          arm-none-eabi-as --version
-          arm-none-eabi-objcopy --version
-          xcrun --version
-          clang --version
-          arm-none-eabi-objcopy --version
+          echo "$(brew --prefix llvm)/bin" >> $GITHUB_PATH
 
-      - name: Build shellcodes
+      - name: Install ARM GNU toolchain
         run: |
-          mkdir -p bin
+          brew install arm-none-eabi-gcc
+
+      - name: Build
+        run: |
           make
 
-      - name: List outputs
+      - name: List output
         run: |
           ls -lah bin
-          file bin/*
 
       - name: Upload shellcodes
         uses: actions/upload-artifact@v4
         with:
           name: ipwndfu-shellcodes
-          path: bin/*.bin
+          path: bin/
