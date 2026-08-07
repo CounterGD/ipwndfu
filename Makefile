@@ -51,5 +51,5 @@ arm64:
 
 	xcrun -sdk iphoneos clang -c src/t8015_shellcode_arm64.S -target arm64-apple-darwin -Wall -o bin/t8015_shellcode_arm64.o
 	$(OBJCOPY_ARM64) -O binary --only-section=__text bin/t8015_shellcode_arm64.o bin/t8015_shellcode_arm64.bin
- $(OBJCOPY_ARM64) -O binary --only-section=__text bin/checkm8_arm64.o bin/checkm8_arm64.bin
- file bin/checkm8_arm64.bin
+	$(OBJCOPY_ARM64) -O binary --only-section=__text bin/checkm8_arm64.o bin/checkm8_arm64.bin
+	file bin/checkm8_arm64.bin
