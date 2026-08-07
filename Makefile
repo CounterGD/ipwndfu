@@ -50,3 +50,4 @@ arm64:
 	$(OBJCOPY_ARM64) -O binary --only-section=__text,__TEXT bin/t8015_shellcode_arm64.o bin/t8015_shellcode_arm64.bin
 	$(OBJCOPY_ARM64) -O binary --only-section=__text,__TEXT bin/checkm8_arm64.o bin/checkm8_arm64.bin
 	file bin/checkm8_arm64.bin
+	llvm-objdump -h bin/checkm8_arm64.o
