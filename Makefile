@@ -1,4 +1,5 @@
-OBJCOPY_ARM64 := $(shell xcrun --find llvm-objcopy)
+LLVM_PREFIX := $(shell brew --prefix llvm)
+OBJCOPY_ARM64 := $(LLVM_PREFIX)/bin/llvm-objcopy
 all: armv6 armv7 arm64
 
 armv6:
@@ -37,17 +38,18 @@ armv7:
 
 arm64:
 	xcrun -sdk iphoneos clang -c src/usb_0xA1_2_arm64.S -target arm64-apple-darwin -Wall -o bin/usb_0xA1_2_arm64.o
-	$(OBJCOPY_ARM64) -O binary -j __text bin/usb_0xA1_2_arm64.o bin/usb_0xA1_2_arm64.bin
+	$(OBJCOPY_ARM64) -O binary --only-section=__text bin/usb_0xA1_2_arm64.o bin/usb_0xA1_2_arm64.bin
 	rm bin/usb_0xA1_2_arm64.o
 
 	xcrun -sdk iphoneos clang -c src/checkm8_arm64.S -target arm64-apple-darwin -Wall -o bin/checkm8_arm64.o
-	$(OBJCOPY_ARM64) -O binary -j __text bin/checkm8_arm64.o bin/checkm8_arm64.bin
+	$(OBJCOPY_ARM64) -O binary -j --only-section=__text bin/checkm8_arm64.o bin/checkm8_arm64.bin
 	rm bin/checkm8_arm64.o
 
 	xcrun -sdk iphoneos clang -c src/t8010_t8011_disable_wxn_arm64.S -target arm64-apple-darwin -Wall -o bin/t8010_t8011_disable_wxn_arm64.o
-	$(OBJCOPY_ARM64) -O binary -j __text bin/t8010_t8011_disable_wxn_arm64.o bin/t8010_t8011_disable_wxn_arm64.bin
+	$(OBJCOPY_ARM64) -O binary --only-section=__text bin/t8010_t8011_disable_wxn_arm64.o bin/t8010_t8011_disable_wxn_arm64.bin
 	rm bin/t8010_t8011_disable_wxn_arm64.o
 
 	xcrun -sdk iphoneos clang -c src/t8015_shellcode_arm64.S -target arm64-apple-darwin -Wall -o bin/t8015_shellcode_arm64.o
-	$(OBJCOPY_ARM64) -O binary -j __text bin/t8015_shellcode_arm64.o bin/t8015_shellcode_arm64.bin
-	rm bin/t8015_shellcode_arm64.o
+	$(OBJCOPY_ARM64) -O binary --only-section=__text bin/t8015_shellcode_arm64.o bin/t8015_shellcode_arm64.bin
+ $(OBJCOPY_ARM64) -O binary --only-section=__text bin/checkm8_arm64.o bin/checkm8_arm64.bin
+ file bin/checkm8_arm64.bin
