@@ -25,7 +25,7 @@ jobs:
           arm-none-eabi-objcopy --version
           xcrun --version
           clang --version
-          gobjcopy --version
+          arm-none-eabi-objcopy --version
 
       - name: Build shellcodes
         run: |
